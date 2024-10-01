@@ -1,28 +1,30 @@
 <?php 
+    include 'PartOfCode/dbconnect.php';
     $login=false;
     $showerror=false;
     if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-        include 'PartOfCode/dbconnect.php';
+        
         $username=$_POST["username"];
         $password=$_POST["password"];
 
         $sql="select * from user where name='$username' AND password='$password'";
         $result=mysqli_query($conn,$sql);
         $num=mysqli_num_rows($result);
-
+        //echo var_dump($result);
         if($num ==1){
-          $login=true;
-          session_start();
-          $_SESSION["loggedin"]=true;
-          $_SESSION["username"]=$username;
-          header("location: main.php");
-            
+              $login=true;
+              session_start();
+              $_SESSION["loggedin"]=true;
+              $_SESSION["username"]=$username;
+              header("location: index.php");
+          }
+          else{
+              $showerror="Enter correct username or password.";
+          }
         }
-        else{
-            $showerror=true;
-        }
-    }
+        
+    
 ?>
 
 <!doctype html>
@@ -48,7 +50,7 @@
 
         if($showerror){
             echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Error: </strong> Invalid Credentials.
+                    <strong>Error: </strong> '. $showerror .'
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                   </div>';
         }

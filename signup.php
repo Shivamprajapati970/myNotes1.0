@@ -17,7 +17,8 @@
             $showerror="User name already exists.";
         }
         else{
-            if($conpassword == $password){
+            if($password == $conpassword){
+                
                 $sql="INSERT INTO `user` (`name`, `password`, `data`) VALUES ('$username', '$password', current_timestamp());";
                 $result=mysqli_query($conn,$sql);
                 if($result){
